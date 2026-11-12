@@ -1,0 +1,6 @@
+{
+  "name": "ANVISA & DOU Regulatory Intelligence Agent",
+  "description": "Monitors the Brazilian Diário Oficial da União (DOU) and ANVISA databases for product and manufacturing site rejections (indeferimentos).",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

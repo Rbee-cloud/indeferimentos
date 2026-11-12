@@ -1,0 +1,92 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: 'Clash Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-sans: 'Satoshi', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-editorial: 'Newsreader', Georgia, serif;
+}
+
+:root {
+  color-scheme: light;
+  --bg-main: #f5f2ed;
+  --bg-card: #ffffff;
+  --text-main: #1a1715;
+  --text-muted: #786f66;
+  --earth-terracotta: #b85d38;
+  --earth-umber: #8a6240;
+  --earth-sage: #4d6652;
+  --earth-sand: #eae3d8;
+  --border-subtle: rgba(70, 55, 45, 0.12);
+}
+
+body {
+  background-color: #f5f2ed;
+  color: #1a1715;
+  font-family: 'Satoshi', sans-serif;
+}
+
+/* Custom scrollbars with warm earthy tone */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f5f2ed;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d4cbc0;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #b0a496;
+}
+
+/* Echo Text Stack with warm earthy layers */
+.echo-stack {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+}
+
+.echo-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  pointer-events: none;
+  user-select: none;
+}
+
+.echo-layer-1 {
+  transform: translate(-0.03em, -0.03em);
+  color: #cfc4b6;
+  z-index: 1;
+}
+
+.echo-layer-2 {
+  transform: translate(-0.06em, -0.06em);
+  color: #dad1c4;
+  z-index: 2;
+}
+
+.echo-layer-3 {
+  transform: translate(-0.09em, -0.09em);
+  color: #e4ddd2;
+  z-index: 3;
+}
+
+.echo-layer-4 {
+  transform: translate(-0.12em, -0.12em);
+  color: #ede7de;
+  z-index: 4;
+}
+
+.echo-layer-main {
+  position: relative;
+  color: #1a1715;
+  z-index: 5;
+}

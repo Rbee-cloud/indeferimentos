@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <script>
+      // Defensive shim for environment scripts & browser extensions that reassign window.fetch
+      (function () {
+        try {
+          var _currentFetch = window.fetch;
+          Object.defineProperty(window, 'fetch', {
+            get: function () {
+              return _currentFetch;
+            },
+            set: function (newFetch) {
+              _currentFetch = newFetch;
+            },
+            configurable: true,
+            enumerable: true,
+          });
+        } catch (err) {
+          // Fallback if defineProperty fails
+        }
+      })();
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ANVISA Regulatory Intelligence Agent — DOU Rejections Monitor</title>
+    <meta name="description" content="Official Brazilian Regulatory Intelligence Agent monitoring ANVISA and Diário Oficial da União (DOU) for product and manufacturing site rejections with RDC regulatory studies." />
+    <meta property="og:title" content="ANVISA Regulatory Intelligence Agent — DOU Rejections Monitor" />
+    <meta property="og:description" content="Official Brazilian Regulatory Intelligence Agent monitoring ANVISA and Diário Oficial da União (DOU) for product and manufacturing site rejections with RDC regulatory studies." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Clash Display & Satoshi from Fontshare CDN for Swiss luxury-brutalist aesthetic -->
+    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@700,600,500&f[]=satoshi@900,700,500,400&display=swap" rel="stylesheet" />
+    <!-- JetBrains Mono from Google Fonts for tabular data -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@1,6..72,400;1,6..72,500&display=swap" rel="stylesheet" />
+  </head>
+  <body class="bg-[#f5f2ed] text-[#1a1715] antialiased selection:bg-[#b85d38] selection:text-[#ffffff] min-h-screen">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
