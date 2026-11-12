@@ -108,8 +108,36 @@ export default function App() {
         setSearchStatus(`Scan complete: ${data.totalFound} verified rejections retrieved from official repository.`);
       }
     } catch (err: any) {
-      console.error('Failed to run live regulatory query:', err);
-      setSearchStatus('Unable to reach remote search gateway. Retained verified local ANVISA repository.');
+      console.warn('Backend API endpoint unreachable (static host / GitHub Pages mode). Filtering client-side verified records:', err);
+      let localFiltered = CURATED_ANVISA_CASES;
+      if (category !== 'all') {
+        if (category === 'pharma') {
+          localFiltered = localFiltered.filter(r => r.category === 'pharma' || r.category === 'api_site');
+        } else {
+          localFiltered = localFiltered.filter(r => r.category === category);
+        }
+      }
+      if (searchTerm) {
+        const q = searchTerm.toLowerCase();
+        localFiltered = localFiltered.filter(
+          r =>
+            r.productOrSite.toLowerCase().includes(q) ||
+            r.company.toLowerCase().includes(q) ||
+            r.cnpj.includes(q) ||
+            r.processNo.toLowerCase().includes(q) ||
+            r.decisionType.toLowerCase().includes(q) ||
+            r.officialGround.toLowerCase().includes(q) ||
+            r.rdcStudy.rdcNumber.toLowerCase().includes(q) ||
+            r.rdcStudy.rejectionSummaryEn.toLowerCase().includes(q) ||
+            r.rdcStudy.complianceKeyGap.toLowerCase().includes(q)
+        );
+      }
+      if (startDate) localFiltered = localFiltered.filter(r => r.date >= startDate);
+      if (endDate) localFiltered = localFiltered.filter(r => r.date <= endDate);
+
+      setRecords(localFiltered);
+      setMarkdownTable(generateStrictMarkdownTable(localFiltered));
+      setSearchStatus(`Static Mode (GitHub Pages): ${localFiltered.length} verified ANVISA gazettes matching query.`);
     } finally {
       setIsScanning(false);
     }
