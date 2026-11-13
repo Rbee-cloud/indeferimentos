@@ -22,7 +22,7 @@ export const Header: React.FC<HeaderProps> = ({
     <header className="sticky top-0 z-40 h-20 bg-[#f5f2ed]/90 backdrop-blur-md border-b border-[#46372d]/10 px-8 flex items-center justify-between transition-all">
       {/* Brand Identity: Clash Display heavy geometric wordmark with terracotta accent */}
       <div className="flex items-center gap-3 shrink-0">
-        <a href="/" className="flex items-baseline gap-2 group">
+        <a href="#top" className="flex items-baseline gap-2 group">
           <span className="font-['Clash_Display'] text-xl font-bold tracking-[-0.04em] text-[#1a1715]">
             ANVISA<span className="text-[#b85d38]">·</span>DOU
           </span>
