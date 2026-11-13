@@ -35,7 +35,7 @@ export const CaseDossierDrawer: React.FC<CaseDossierDrawerProps> = ({ record, on
 
   const cleanProcessNumber = record.processNo.replace(/[./-]/g, '');
   const anvisaSearchUrl = `https://consultas.anvisa.gov.br/#/consulta-generica/q/?numeroProcesso=${encodeURIComponent(cleanProcessNumber)}`;
-  const douSearchByRe = record.douSearchUrl || `https://www.in.gov.br/consulta/-/buscar/dou?q=${encodeURIComponent(`"${record.decisionType}"`)}`;
+  const douSearchByRe = record.douSearchUrl || `https://www.in.gov.br/consulta/-/buscar/dou?q=${encodeURIComponent(record.decisionType)}`;
   const cnpjSearchUrl = `https://cnpj.biz/${record.cnpj.replace(/\D/g, '')}`;
 
   return (

@@ -15,8 +15,8 @@ import { Globe, Shield, ExternalLink } from 'lucide-react';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<'table' | 'markdown'>('table');
-  const [startDate, setStartDate] = useState('2026-10-12');
-  const [endDate, setEndDate] = useState('2026-11-12');
+  const [startDate, setStartDate] = useState('2026-10-14');
+  const [endDate, setEndDate] = useState('2026-11-13');
   const [category, setCategory] = useState<SectorCategory>('pharma');
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -33,7 +33,7 @@ export default function App() {
   const [isRulesModalOpen, setIsRulesModalOpen] = useState(false);
   const [groundingSources, setGroundingSources] = useState<Array<{ uri: string; title: string }>>([]);
   const [searchStatus, setSearchStatus] = useState<string>(
-    'Verified ANVISA official repository loaded with authentic Diário Oficial da União gazettes.'
+    'Verified ANVISA DOU Seção 1 archive loaded (authentic www.in.gov.br notices). Click Query DOU for live scan.'
   );
 
   const workspaceRef = useRef<HTMLDivElement>(null);
@@ -79,7 +79,7 @@ export default function App() {
 
   const handleExecuteSearch = async () => {
     setIsScanning(true);
-    setSearchStatus('Executing live surveillance on in.gov.br/web/dou/ via Gemini with Google Search Grounding...');
+    setSearchStatus('Fetching official ANVISA notices directly from www.in.gov.br/consulta/-/buscar/dou...');
 
     try {
       const response = await fetch('/api/regulatory/search', {
@@ -102,13 +102,17 @@ export default function App() {
       setMarkdownTable(data.markdownTable || generateStrictMarkdownTable(data.records || []));
       setGroundingSources(data.groundingSources || []);
 
-      if (data.isLiveSearch) {
-        setSearchStatus(`Live scan complete: ${data.totalFound} qualified rejection acts extracted from in.gov.br with RDC studies.`);
+      if (data.totalFound === 0) {
+        setSearchStatus(
+          `Live www.in.gov.br scan complete (${data.executionTimeMs}ms): No new qualifying ANVISA indeferimento entries found for ${startDate}..${endDate}.`
+        );
       } else {
-        setSearchStatus(`Scan complete: ${data.totalFound} verified rejections retrieved from official repository.`);
+        setSearchStatus(
+          `Live www.in.gov.br scan complete (${data.executionTimeMs}ms): ${data.totalFound} verified ANVISA rejection(s) extracted directly from official DOU HTML.`
+        );
       }
     } catch (err: any) {
-      console.warn('Backend API endpoint unreachable (static host / GitHub Pages mode). Filtering client-side verified records:', err);
+      console.warn('Backend API endpoint unreachable (static host / GitHub Pages mode). Filtering verified local archive:', err);
       let localFiltered = CURATED_ANVISA_CASES;
       if (category !== 'all') {
         if (category === 'pharma') {
@@ -137,7 +141,10 @@ export default function App() {
 
       setRecords(localFiltered);
       setMarkdownTable(generateStrictMarkdownTable(localFiltered));
-      setSearchStatus(`Static Mode (GitHub Pages): ${localFiltered.length} verified ANVISA gazettes matching query.`);
+      setGroundingSources([]);
+      setSearchStatus(
+        `Static Archive Mode: ${localFiltered.length} verified www.in.gov.br DOU records matching filter (live server backend required for uncached date ranges).`
+      );
     } finally {
       setIsScanning(false);
     }

@@ -8,30 +8,28 @@ interface ShowcaseGridProps {
 }
 
 export const ShowcaseGrid: React.FC<ShowcaseGridProps> = ({ onSelectCase, featuredCases }) => {
-  const case1 = featuredCases[0]; // Sterile API site
-  const case2 = featuredCases[2]; // CADIFA Nitrosamine
-  const case3 = featuredCases[1]; // Bioequivalence Apixaban
+  const case1 = featuredCases[0];
 
   return (
     <section className="py-16 px-6 max-w-7xl mx-auto border-b border-[#46372d]/10">
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 pb-4 border-b border-[#46372d]/10">
         <div>
           <div className="text-xs font-['JetBrains_Mono'] uppercase tracking-widest text-[#8a6240] font-semibold mb-1">
-            STATUTORY SPOTLIGHT · HIGH PRIORITY JURISDICTION
+            STATUTORY SPOTLIGHT · VERIFIED DOU SEÇÃO 1
           </div>
           <h2 className="font-['Clash_Display'] text-3xl font-bold tracking-[-0.03em] text-[#1a1715]">
             Critical Regulatory Focus Areas
           </h2>
         </div>
         <p className="font-['Satoshi'] text-xs text-[#786f66] max-w-md mt-2 md:mt-0 leading-relaxed">
-          The three most prominent causes for ANVISA pharmaceutical indeferimentos in recent gazettes: Good Manufacturing Practice cleanrooms, mutagenic nitrosamine evaluation, and pharmacokinetic bioequivalence curves.
+          Leading statutory grounds for ANVISA pharmaceutical and API rejections in official DOU resolutions: utility qualification &amp; GMP inspection failures, foreign API reliance gaps, and lapsed technical exigency deadlines.
         </p>
       </div>
 
       {/* Asymmetrical 12-Column Showcase Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch mb-12">
         {/* Item 1: Large 8-column rectangular card with warm terracotta accent */}
-        {case1 && (
+        {case1 ? (
           <div
             onClick={() => onSelectCase(case1)}
             className="lg:col-span-8 bg-[#ffffff] border border-[#46372d]/12 p-8 rounded-sm hover:border-[#b85d38] transition-all cursor-pointer group flex flex-col justify-between shadow-xs"
@@ -39,7 +37,7 @@ export const ShowcaseGrid: React.FC<ShowcaseGridProps> = ({ onSelectCase, featur
             <div>
               <div className="flex flex-wrap items-center justify-between text-xs font-['JetBrains_Mono'] text-[#786f66] pb-4 mb-4 border-b border-[#46372d]/10 gap-2">
                 <span className="font-bold text-[#b85d38] bg-[#fbf5f2] px-2.5 py-1 rounded border border-[#b85d38]/20">
-                  RDC 658/2022 & IN 35/2019
+                  {case1.rdcStudy.rdcNumber}
                 </span>
                 <span>{case1.decisionType} · {case1.date}</span>
               </div>
@@ -61,6 +59,18 @@ export const ShowcaseGrid: React.FC<ShowcaseGridProps> = ({ onSelectCase, featur
               <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             </div>
           </div>
+        ) : (
+          <div className="lg:col-span-8 bg-[#ffffff] border border-[#46372d]/12 p-8 rounded-sm flex flex-col justify-center items-start shadow-xs">
+            <span className="text-xs font-['JetBrains_Mono'] uppercase tracking-wider text-[#8a6240] font-semibold mb-2">
+              ZERO QUALIFYING ENTRIES IN ACTIVE RANGE
+            </span>
+            <h3 className="font-['Clash_Display'] text-2xl font-bold text-[#1a1715] mb-2">
+              No Spotlight Case Matched Current Filter
+            </h3>
+            <p className="font-['Satoshi'] text-sm text-[#786f66] leading-relaxed">
+              Expand the date window or clear keyword filters below to inspect verified ANVISA rejection dossiers from the Diário Oficial da União.
+            </p>
+          </div>
         )}
 
         {/* Item 2: Vertical 4-column pill-shaped card with warm sage & umber tones */}
@@ -71,13 +81,13 @@ export const ShowcaseGrid: React.FC<ShowcaseGridProps> = ({ onSelectCase, featur
 
           <div className="my-4 px-3">
             <span className="text-[11px] font-['JetBrains_Mono'] uppercase tracking-widest text-[#4d6652] font-bold block mb-1.5">
-              FACILITY INSPECTION
+              FACILITY &amp; UTILITY GMP
             </span>
             <h4 className="font-['Clash_Display'] text-xl font-bold tracking-tight text-[#1a1715] mb-2 leading-snug">
-              Sterile Cleanroom Compliance
+              Water, HVAC &amp; Cleaning Validation
             </h4>
             <p className="font-['Satoshi'] text-xs text-[#786f66] leading-relaxed">
-              Mandatory ISO 5 laminar air velocity, automated particle counting, and locked GAMP 5 chromatography audit trails.
+              Mandatory purified water qualification, air handling validation, unmasked deviation trails, and verified market recall execution.
             </p>
           </div>
 
@@ -91,56 +101,56 @@ export const ShowcaseGrid: React.FC<ShowcaseGridProps> = ({ onSelectCase, featur
 
       {/* Row 2: Bespoke 3-column service cards with earthy accents */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Card 1: Nitrosamines (Terracotta) */}
+        {/* Card 1: International API GMP Reliance (Terracotta) */}
         <div className="bg-[#ffffff] hover:bg-[#faf7f3] border border-[#46372d]/12 p-6 rounded-sm transition-all duration-200 group shadow-xs">
           <div className="w-14 h-14 bg-[#fbf5f2] rounded flex items-center justify-center text-[#b85d38] mb-5 group-hover:rotate-12 group-hover:bg-[#b85d38] group-hover:text-[#ffffff] transition-all duration-300 border border-[#b85d38]/20">
             <FlaskConical className="w-6 h-6" />
           </div>
-          <div className="text-xs font-['JetBrains_Mono'] text-[#b85d38] font-semibold mb-1">RDC 359/2020 & 677/2022</div>
+          <div className="text-xs font-['JetBrains_Mono'] text-[#b85d38] font-semibold mb-1">RDC 497/2021 &amp; RDC 672/2022</div>
           <h4 className="font-['Clash_Display'] text-lg font-bold text-[#1a1715] mb-2">
-            CADIFA & Nitrosamines
+            Foreign API GMP &amp; Checklist
           </h4>
           <p className="font-['Satoshi'] text-xs text-[#786f66] leading-relaxed mb-4">
-            Strict requirements for Active Substance Master Files. Mandates validated Step 2 risk analyses for mutagenic nitrosamine impurities and Zone IVb tropical stability.
+            Strict international CBPF certification standards for chemical synthesis and biological APIs. Missing checklist files or inability to host ANVISA inspection triggers immediate denial.
           </p>
           <div className="flex items-center gap-1 text-xs font-['Satoshi'] font-bold text-[#b85d38] tracking-wide uppercase">
-            <span>Synthesis Controls</span>
+            <span>Offshore API Controls</span>
             <ArrowUpRight className="w-3.5 h-3.5" />
           </div>
         </div>
 
-        {/* Card 2: Bioequivalence (Warm Umber) */}
+        {/* Card 2: Procedural Deadlines & Exigências (Warm Umber) */}
         <div className="bg-[#ffffff] hover:bg-[#faf7f3] border border-[#46372d]/12 p-6 rounded-sm transition-all duration-200 group shadow-xs">
           <div className="w-14 h-14 bg-[#f9f5f0] rounded flex items-center justify-center text-[#8a6240] mb-5 group-hover:rotate-12 group-hover:bg-[#8a6240] group-hover:text-[#ffffff] transition-all duration-300 border border-[#8a6240]/20">
             <Scale className="w-6 h-6" />
           </div>
-          <div className="text-xs font-['JetBrains_Mono'] text-[#8a6240] font-semibold mb-1">RDC 749/2022 & 200/2017</div>
+          <div className="text-xs font-['JetBrains_Mono'] text-[#8a6240] font-semibold mb-1">RDC 204/2005 (Arts. 6º &amp; 11)</div>
           <h4 className="font-['Clash_Display'] text-lg font-bold text-[#1a1715] mb-2">
-            In Vivo Bioequivalence
+            120-Day Exigency Deadlines
           </h4>
           <p className="font-['Satoshi'] text-xs text-[#786f66] leading-relaxed mb-4">
-            Generic registration acceptance criteria: 90% confidence intervals for Cmax and AUC must fall strictly between 80.00% and 125.00% with verified f2 dissolution similarity.
+            Non-extendable 120-day response window from receipt of ANVISA Technical Requirement Notifications. Incomplete or lapsed replies result in automatic petition rejection.
           </p>
           <div className="flex items-center gap-1 text-xs font-['Satoshi'] font-bold text-[#8a6240] tracking-wide uppercase">
-            <span>Pharmacokinetics</span>
+            <span>Procedural Compliance</span>
             <ArrowUpRight className="w-3.5 h-3.5" />
           </div>
         </div>
 
-        {/* Card 3: Viral Safety & Sterility (Sage) */}
+        {/* Card 3: Operating Authorizations & Quality Control (Sage) */}
         <div className="bg-[#ffffff] hover:bg-[#faf7f3] border border-[#46372d]/12 p-6 rounded-sm transition-all duration-200 group shadow-xs">
           <div className="w-14 h-14 bg-[#f4f7f4] rounded flex items-center justify-center text-[#4d6652] mb-5 group-hover:rotate-12 group-hover:bg-[#4d6652] group-hover:text-[#ffffff] transition-all duration-300 border border-[#4d6652]/20">
             <ShieldAlert className="w-6 h-6" />
           </div>
-          <div className="text-xs font-['JetBrains_Mono'] text-[#4d6652] font-semibold mb-1">RDC 55/2010 & IN 35/2019</div>
+          <div className="text-xs font-['JetBrains_Mono'] text-[#4d6652] font-semibold mb-1">RDC 16/2014 &amp; RDC 670/2022</div>
           <h4 className="font-['Clash_Display'] text-lg font-bold text-[#1a1715] mb-2">
-            Viral Safety & Sterility
+            AFE / AE &amp; Quality Laboratories
           </h4>
           <p className="font-['Satoshi'] text-xs text-[#786f66] leading-relaxed mb-4">
-            Orthogonal viral clearance factors (≥4 log reduction) for non-enveloped pathogens in biologicals, and zero tolerance for positive growth during media fill simulations.
+            Requires valid local health authority (VISA) inspection reports for controlled-substance or product distribution, plus verified own Quality Control laboratories for medicine importers.
           </p>
           <div className="flex items-center gap-1 text-xs font-['Satoshi'] font-bold text-[#4d6652] tracking-wide uppercase">
-            <span>Sterility Assurance</span>
+            <span>Sanitary Licensing</span>
             <ArrowUpRight className="w-3.5 h-3.5" />
           </div>
         </div>

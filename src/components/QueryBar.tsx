@@ -29,12 +29,15 @@ export const QueryBar: React.FC<QueryBarProps> = ({
   isScanning,
   totalFound,
 }) => {
+  const [activePreset, setActivePreset] = React.useState<number | null>(30);
+
   const setPresetRange = (days: number) => {
-    const end = new Date('2026-11-12');
+    const end = new Date('2026-11-13');
     const start = new Date(end);
     start.setDate(start.getDate() - days);
     setStartDate(start.toISOString().split('T')[0]);
     setEndDate(end.toISOString().split('T')[0]);
+    setActivePreset(days);
   };
 
   return (
@@ -48,34 +51,29 @@ export const QueryBar: React.FC<QueryBarProps> = ({
             <span>·</span>
             <span className="text-[#4d6652] font-bold flex items-center gap-1">
               <ShieldCheck className="w-3.5 h-3.5" />
-              LIVE SURVEILLANCE
+              VERIFIED IN.GOV.BR FEED
             </span>
           </div>
           <h2 className="font-['Clash_Display'] text-2xl font-bold tracking-[-0.03em] text-[#1a1715]">
-            Gazette Query & Regulatory Filter
+            Gazette Query &amp; Regulatory Filter
           </h2>
         </div>
 
         {/* Quick Date Range Presets with Warm Earthy Sand */}
         <div className="flex items-center gap-1.5 p-1 bg-[#eae3d8] rounded-full border border-[#46372d]/15 text-xs font-['Satoshi'] font-semibold">
-          <button
-            onClick={() => setPresetRange(7)}
-            className="px-4 py-1.5 rounded-full text-[#786f66] hover:text-[#1a1715] transition-colors"
-          >
-            Last 7 Days
-          </button>
-          <button
-            onClick={() => setPresetRange(15)}
-            className="px-4 py-1.5 rounded-full text-[#786f66] hover:text-[#1a1715] transition-colors"
-          >
-            Last 15 Days
-          </button>
-          <button
-            onClick={() => setPresetRange(30)}
-            className="px-4 py-1.5 rounded-full bg-[#1a1715] text-[#ffffff] shadow-xs"
-          >
-            Last 30 Days
-          </button>
+          {[7, 15, 30].map(days => (
+            <button
+              key={days}
+              onClick={() => setPresetRange(days)}
+              className={`px-4 py-1.5 rounded-full transition-colors ${
+                activePreset === days
+                  ? 'bg-[#1a1715] text-[#ffffff] shadow-xs'
+                  : 'text-[#786f66] hover:text-[#1a1715]'
+              }`}
+            >
+              Last {days} Days
+            </button>
+          ))}
         </div>
       </div>
 
@@ -90,7 +88,10 @@ export const QueryBar: React.FC<QueryBarProps> = ({
             <input
               type="date"
               value={startDate}
-              onChange={e => setStartDate(e.target.value)}
+              onChange={e => {
+                setStartDate(e.target.value);
+                setActivePreset(null);
+              }}
               className="w-full bg-[#fbf9f6] border border-[#46372d]/15 rounded-sm px-3 py-2.5 text-xs text-[#1a1715] font-['JetBrains_Mono'] focus:outline-none focus:border-[#b85d38]"
             />
           </div>
@@ -101,7 +102,10 @@ export const QueryBar: React.FC<QueryBarProps> = ({
             <input
               type="date"
               value={endDate}
-              onChange={e => setEndDate(e.target.value)}
+              onChange={e => {
+                setEndDate(e.target.value);
+                setActivePreset(null);
+              }}
               className="w-full bg-[#fbf9f6] border border-[#46372d]/15 rounded-sm px-3 py-2.5 text-xs text-[#1a1715] font-['JetBrains_Mono'] focus:outline-none focus:border-[#b85d38]"
             />
           </div>
@@ -117,10 +121,10 @@ export const QueryBar: React.FC<QueryBarProps> = ({
             onChange={e => setCategory(e.target.value as SectorCategory)}
             className="w-full bg-[#fbf9f6] border border-[#46372d]/15 rounded-sm px-3 py-2.5 text-xs text-[#1a1715] font-['Satoshi'] font-medium focus:outline-none focus:border-[#b85d38]"
           >
-            <option value="pharma">Pharmaceuticals & APIs (CADIFAs / GMP)</option>
-            <option value="api_site">Manufacturing Sites & GMP Inspections</option>
-            <option value="medtech">Medical Devices & IVD Diagnostics</option>
-            <option value="cosmetics">Cosmetics & Sanitizers</option>
+            <option value="pharma">Pharmaceuticals &amp; APIs (CBPF / AFE)</option>
+            <option value="api_site">Manufacturing Sites &amp; GMP Inspections</option>
+            <option value="medtech">Medical Devices &amp; IVD Diagnostics</option>
+            <option value="cosmetics">Cosmetics &amp; Sanitizers</option>
             <option value="all">All Regulated Health Categories</option>
           </select>
         </div>
@@ -134,7 +138,7 @@ export const QueryBar: React.FC<QueryBarProps> = ({
             <Search className="w-4 h-4 text-[#786f66] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
             <input
               type="text"
-              placeholder="e.g. 25351..., Apixaban, RDC 658"
+              placeholder="e.g. 25351..., Sandoz, RDC 497"
               value={searchTerm}
               onChange={e => setSearchTerm(e.target.value)}
               className="w-full bg-[#fbf9f6] border border-[#46372d]/15 rounded-sm pl-9 pr-3 py-2.5 text-xs text-[#1a1715] placeholder:text-[#9e958b] font-['Satoshi'] focus:outline-none focus:border-[#b85d38]"
@@ -158,9 +162,9 @@ export const QueryBar: React.FC<QueryBarProps> = ({
       {/* Query Status Citation */}
       <div className="mt-5 pt-4 border-t border-[#46372d]/10 flex flex-wrap items-center justify-between text-xs font-['JetBrains_Mono'] text-[#786f66] gap-2">
         <div className="truncate max-w-2xl">
-          <span className="text-[#1a1715] font-bold">Query: </span>
+          <span className="text-[#1a1715] font-bold">DOU Source: </span>
           <span className="text-[#8a6240]">
-            site:in.gov.br/web/dou/ "Agência Nacional de Vigilância Sanitária" ("indeferimento" | "indeferido") [{startDate} .. {endDate}]
+            www.in.gov.br/consulta/-/buscar/dou · ANVISA (Seção 1) · [{startDate} .. {endDate}]
           </span>
         </div>
         <div>
